@@ -49,7 +49,7 @@ function App() {
 
   const worker = new Worker()
   const messageFromWorker = async({ data }) => {
-    console.log(data)
+    alert(JSON.stringify(data, null, 2))
   }
   worker.addEventListener('message', messageFromWorker)
 
