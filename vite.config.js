@@ -14,8 +14,9 @@ export default defineConfig({
             strategies: 'injectManifest',
             includeAssets: ['/favicon.svg'], // <== don't remove slash, for testing purposes
             manifest: {
-                name: 'PWA Inject Manifest',
-                short_name: 'PWA Inject',
+                display: 'standalone',
+                name: 'PWA test',
+                short_name: 'test',
                 theme_color: '#ffffff',
                 icons: [
                     {
