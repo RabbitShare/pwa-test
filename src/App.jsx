@@ -1,11 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Worker from './my-worker?worker'
+import {registerSW} from 'virtual:pwa-register'
+
+const useRegisterSW = (options = {}) => {
+    const {
+        immediate = true,
+        onNeedRefresh,
+        onOfflineReady,
+        onRegistered,
+        onRegisterError,
+      } = options
+    
+      const needRefresh = useRef(false)
+      const offlineReady = useRef(false)
+    
+      const updateServiceWorker = registerSW({
+        immediate,
+        onNeedRefresh() {
+          needRefresh.current = true
+          onNeedRefresh?.()
+        },
+        onOfflineReady() {
+          offlineReady.current = true
+          onOfflineReady?.()
+        },
+        onRegistered,
+        onRegisterError,
+      })
+    
+      return {
+        updateServiceWorker,
+        offlineReady,
+        needRefresh,
+      }
+}
 
 function App() {
   const [count, setCount] = useState(0)
-
+  useRegisterSW()
   const runWorker = async() => {
     worker.postMessage('ping')
   }
